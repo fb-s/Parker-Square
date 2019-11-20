@@ -140,6 +140,7 @@ function btnStart () {
 		
 		for (let i = 0; i < length; i++) {
 
+			if (i > 10000000) {alert('many operations'); return}
 			plus();
 		
 			if (check(i)) {
@@ -149,6 +150,7 @@ function btnStart () {
 		}
 
 		document.getElementById('load').classList.add("hide");
+		document.getElementById('counts').innerHTML = '';
 
 	}, 20);
 	
