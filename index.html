@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Parker-Square</title>
+	<style>
+		body {margin: auto; width: 80%;}
+		table td {border: 1px solid #999;}
+		div#result {display: inline-flex;}
+		div#result div {display: inline-grid; margin: 10px; padding: 10px; border: 1px solid #bbb;}
+		.github {
+			position: fixed;
+			right: 10px;
+			bottom: 10px;
+			color: gray;
+		}
+		a {color: #bbb;}
+		a:hover {color: crimson;}
+		.danger {color: crimson;}
+		img#load {width: 12px;}
+		.hide {display: none;}
+	</style>
+</head>
+<body>
+
+	<h1>Parker-Square</h1>
+	<div class="github">
+		<a href="http://110studio.ru/">110studio</a>
+		<small>github: <a href="https://github.com/fb-s">fb</a>: <a href="https://github.com/fb-s/Parker-Square">Parker-Square</a></small></div>
+	<div>
+		<p>
+			<label>Start your search with:</label>
+			<input id="startNum" type="number" value="1">
+		</p>
+		<p>
+			<label>Array size: (odd only)</label>
+			<input id="arraySize" type="number" value="3">
+		</p>
+
+		<p>
+			<label>Metod:</label>
+			<input id="metod"  type="number" value="2">
+			<span>(1: summ, 2: degree 2, 3: degree 3, ...)</span>
+		</p>
+
+		<p>
+			<label>Maximum number in a cell:</label>
+			<input id="maximumNum" type="number" value="2">
+		</p>
+
+		<p>
+			<label>Number of operations:</label>
+			<input id="numberOperations" type="number" value="0">
+		</p>
+
+		<button type="button" onclick="btnStart()">Start</button>
+		<img id="load" class="hide" src="https://static.wixstatic.com/media/71b91f_105a24ce0e2a477fa9be0e19dd175170~mv2.gif">
+		<button type="button" onclick="btnClear()">Clear</button>
+	</div>
+
+	<p class="danger">Don't put too many numbers</p>
+
+	<hr>
+	
+	<div id="result"></div>
+
+	<script src="s.js"></script>
+</body>
+</html>
