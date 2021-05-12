@@ -16,17 +16,18 @@
 	<div>
 		<p>
 			<label>Parker-Square size: (odd only)</label>
-			<input id="psSize" type="number" step="2" value="3" min="3" onkeyup="onChange('psSize')" onChange="onChange('psSize')">
+			<input id="psSize" type="number" step="2" value="3" min="3" onkeyup="onChange('psSize', this)" onChange="onChange('psSize', this)">
 		</p>
 
 		<p>
-			<label>method:</label>
-			<input id="method" type="text" value="multiply" disabled>
+			<label>Method:</label>
+			<input type="radio" value="0" onChange="onChange('method', this)" checked> Sum
+			<input type="radio" value="1" onChange="onChange('method', this)"> Multiply
 		</p>
 
 		<p>
 			<label>Max number:</label>
-			<input id="maxNum" type="number" value="2" min="1" onkeyup="onChange('maxNum')" onChange="onChange('maxNum')">
+			<input id="maxNum" type="number" value="2" min="1" onkeyup="onChange('maxNum', this)" onChange="onChange('maxNum', this)">
 		</p>
 
 

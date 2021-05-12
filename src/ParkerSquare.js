@@ -7,7 +7,6 @@ const process = {
 		run: false, // Сейчас запущен процесс
 		stop: false // Требуется остановить процесс
 	};
-const methods = ['summ', 'multiplication' ];
 
 /** Тут подсчёт по методу */
 function result (ps, nums = []) {
@@ -44,9 +43,9 @@ function check (ps) {
 		arrForResult.push([].concat(...arrForResultLine2));
 		arrForResult = arrForResult.map(value => result(ps, value));
 
-		ps.summ = arrForResult[0];
+		ps.sum = arrForResult[0];
 
-		return ps.summ && arrForResult.every(value => ps.summ === value)
+		return ps.sum && arrForResult.every(value => ps.sum === value)
 			? resolve(ps)
 			: reject(ps);
 
@@ -73,8 +72,8 @@ function showPositiveResult (ps) {
 			+ square.join('')
 			+ '</tr></table><p>Result: <strong>'
 			+ ps.iteration
-			+ '</strong></p><p>Summ: <strong>'
-			+ ps.summ
+			+ '</strong></p><p>Sum: <strong>'
+			+ ps.sum
 			+ '</strong></p></div>';
 
 		return resolve(ps);
@@ -106,9 +105,9 @@ function stop () {
 }
 
 /** Если поменялись параметры проверяем корректность */
-function onChange (name) {
+function onChange (name, element) {
 
-	params[name] = +document.getElementById(name).value;
+	params[name] = +element.value;
 
 	if (!(params.psSize & 1)) {params.psSize--; document.getElementById('psSize').value = params.psSize;}
 	if (params.psSize < 3) {params.psSize = 3; document.getElementById('psSize').value = params.psSize;}
