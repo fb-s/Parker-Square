@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Parker-Square</title>
+	<link href="style.css" rel="stylesheet" media="all">
+</head>
+<body>
+
+	<h1>Parker-Square</h1>
+	<div class="github">
+		<a href="http://110studio.ru/">110studio</a>
+		<small>github: <a href="https://github.com/fb-s">fb</a>: <a href="https://github.com/fb-s/Parker-Square">Parker-Square</a></small></div>
+	<div>
+		<p>
+			<label>Parker-Square size: (odd only)</label>
+			<input id="psSize" type="number" step="2" value="3" min="3" onkeyup="onChange('psSize')" onChange="onChange('psSize')">
+		</p>
+
+		<p>
+			<label>method:</label>
+			<input id="method" type="text" value="multiply" disabled>
+		</p>
+
+		<p>
+			<label>Max number:</label>
+			<input id="maxNum" type="number" value="2" min="1" onkeyup="onChange('maxNum')" onChange="onChange('maxNum')">
+		</p>
+
+
+		<button id="btnStart" type="button" onclick="onStart()">
+			Start
+			<img id="load" class="hide" src="https://static.wixstatic.com/media/71b91f_105a24ce0e2a477fa9be0e19dd175170~mv2.gif">
+			<span id="counts"></span>
+		</button>
+		<button id="clear" type="button" onclick="onClear()">Clear</button>
+	</div>
+
+	<hr>
+	<div id="process"></div>
+	
+	<div id="result"></div>
+
+	<script src="ParkerSquare.js"></script>
+</body>
+</html>

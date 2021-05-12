@@ -1,0 +1,13 @@
+{
+	"name": "parker-square",
+	"version": "1.0.0",
+	"description": "Parker Square Generator",
+	"author": "fb",
+	"scripts": {
+		"run": "gulp"
+	},
+	"devDependencies": {
+		"browser-sync": "^2.26.14",
+		"gulp": "^4.0.2"
+	}
+}
