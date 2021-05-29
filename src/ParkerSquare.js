@@ -1,6 +1,7 @@
 const params = {
 		psSize: 3, // Parker-Square size
-		method: 1, // 0 = +, 1 - *
+		method: 0, // 0 = +, 1 - *
+		stufe: 1, // errichten in stufe
 		maxNum: 2, // Maximum number in a cell
 	};
 const process = {
@@ -8,14 +9,27 @@ const process = {
 		stop: false // Требуется остановить процесс
 	};
 
-/** Тут подсчёт по методу */
+/**
+ * Подсчёт по методу
+ * @param {ParkerSquare} ps
+ * @param {[Number]} nums
+ * @returns {Number}
+ */
 function result (ps, nums = []) {
 
-	return nums.reduce((res, current) => ps.params.method === 0 ? res + current : res * current);
+	return nums
+		.map(value => Math.pow(value, ps.params.stufe))
+		.reduce((res, current) => ps.params.method === 0 ? res + current : res * current);
 
 }
 
-/** Проверка квадрата на соответствие */
+/**
+ * Проверка квадрата на соответствие
+ * Если квадрат соответствует то вернёт resolve
+ * Если квадрат не соответствует то верёнт reject
+ * @param {ParkerSquare} ps 
+ * @returns {Promise}
+ */
 function check (ps) {
 
 	return new Promise((resolve, reject) => setTimeout(() => {
@@ -53,43 +67,45 @@ function check (ps) {
 
 }
 
-/** Выводит на экран найденый квадрат */
+/**
+ * Выводит на экран найденый квадрат
+ * @param {ParkerSquare} ps
+ */
 function showPositiveResult (ps) {
 
-	return new Promise(resolve => setTimeout(() => {
-
-		let square = ps.square;
-		square = square.map(item => '<td>'+item+'</td>');
-		square.forEach((item, i, arr)=> {
-			if (!((i+1)/ps.params.psSize % 1) && (i+1) !== arr.length) {
-				arr[i] = item + '</tr><tr>';
-			}
-		})
-		
-		document.getElementById('result').innerHTML
-			= document.getElementById('result').innerHTML
-			+ '<div><table><tr>'
-			+ square.join('')
-			+ '</tr></table><p>Result: <strong>'
-			+ ps.iteration
-			+ '</strong></p><p>Sum: <strong>'
-			+ ps.sum
-			+ '</strong></p></div>';
-
-		return resolve(ps);
-
-	}, 0)); 
+	let square = ps.square;
+	square = square.map(item => '<td>'+item+'</td>');
+	square.forEach((item, i, arr)=> {
+		if (!((i+1)/ps.params.psSize % 1) && (i+1) !== arr.length) {
+			arr[i] = item + '</tr><tr>';
+		}
+	})
+	
+	document.getElementById('result').innerHTML
+		= document.getElementById('result').innerHTML
+		+ '<div><table><tr>'
+		+ square.join('')
+		+ '</tr></table><p>Result: <strong>'
+		+ ps.iteration
+		+ '</strong></p><p>Sum: <strong>'
+		+ ps.sum
+		+ '</strong></p></div>';
 
 }
 
-/** отобразить/скрыть загрузку */
+/**
+ * отобразить/скрыть загрузку
+ * @param {Boolean} show
+ */
 function spinner (show = false) {
 
 	document.getElementById('load').classList[show ? 'remove' : 'add']("hide");
 
 }
 
-/** Остановить процесс перебора */
+/**
+ * Остановить процесс перебора
+ */
 function stop () {
 
 	process.stop = true;
@@ -104,7 +120,11 @@ function stop () {
 
 }
 
-/** Если поменялись параметры проверяем корректность */
+/**
+ * Если поменялись параметры проверяем корректность
+ * @param {String} name
+ * @param {*} element
+ */
 function onChange (name, element) {
 
 	params[name] = +element.value;
@@ -119,6 +139,11 @@ function onChange (name, element) {
 
 }
 
+/**
+ * Создаст клон объекта
+ * @param {Object} obj 
+ * @returns {Object}
+ */
 function deepClone (obj = {}) {
 
 	const cloneObj = {};
@@ -134,6 +159,11 @@ function deepClone (obj = {}) {
 	return cloneObj;
 }
 
+/**
+ * Создаст клон Массива
+ * @param {Array} arr 
+ * @returns {Array}
+ */
 function deepCloneArr (arr = []) {
 
 	const cloneArr = [];
@@ -147,7 +177,9 @@ function deepCloneArr (arr = []) {
 	return cloneArr;
 }
 
-/** Начало проверки по заданным параметрам */
+/**
+ * Начало проверки по заданным параметрам
+ */
 function onStart () {
 
 	spinner(true);
@@ -164,30 +196,44 @@ function onStart () {
 	
 }
 
-/** перебор */
-function enumeration (ParkerSquare) {
+/**
+ * перебор
+ * @param {ParkerSquare} ParkerSquare
+ */
+async function enumeration (ParkerSquare) {
 
-	new Promise(resolve => resolve(ParkerSquare))
-		.then(ps => calculate(ps)) // прибавим цифру
-		// .then(ps => new Promise(r => {console.log({...ps}); r(ps)})) // прибавим цифру
-		.then(ps => iteration(ps)) // посчитаем операции
-		.then(ps => { // если нажата кнопка стоп или дошли до максимального значения, то больше не запускам подсчёт
-			if (process.stop) stop()
-			else enumeration(deepClone({
-				params: {... ps.params},
-				iteration: ps.iteration,
-				square: deepCloneArr([...ps.square])
-			}));
-			return ps;
-		})
-		.then(ps => processSquare(ps)) // Отобразим на экран текущий
-		.then(ps => check(ps)) // Вернёт положительный результат если прошёл проверку
-		.then(ps => showPositiveResult(ps)) // если прошёл проверку, то выведет результат
-		.catch(() => {})
+	let ps = ParkerSquare;
+
+	try {
+
+		ps = await calculate(ps) // прибавим цифру
+		ps = await iteration(ps) // посчитаем операции
+
+		// не продолжать перебор
+		if (process.stop) stop()
+		// продолжить перебор
+		else enumeration(
+				deepClone({
+					params: {... ps.params},
+					iteration: ps.iteration,
+					square: deepCloneArr([...ps.square])
+				})
+			);
+
+		ps = await processSquare(ps) // Отобразим на экран текущий
+		ps = await check(ps) // Вернёт положительный результат если прошёл проверку
+		
+		showPositiveResult(ps) // если прошёл проверку, то выведет результат
+
+	} catch (error) {}
 
 }
 
-/** отобразить количество сделаных операций */
+/**
+ * отобразить количество сделаных операций
+ * @param {ParkerSquare} ps
+ * @returns {Promise {ParkerSquare}}
+ */
 function iteration (ps) {
 	return new Promise(resolve => setTimeout(() =>{
 		
@@ -199,7 +245,11 @@ function iteration (ps) {
 	},0))
 }
 
-/** добавляет еденицу */
+/**
+ * добавляет еденицу
+ * @param {ParkerSquare} ps
+ * @returns {Promise {ParkerSquare}}
+ */
 function calculate (ps) {
 	return new Promise(resolve => setTimeout(() => {
 
@@ -225,7 +275,9 @@ function calculate (ps) {
 	}, 0));
 }
 
-/** Остановить или очистить результат */
+/**
+ * Остановить или очистить результат
+ */
 function onClear () {
 
 	if (process.run) stop()
@@ -233,7 +285,11 @@ function onClear () {
 
 }
 
-/** Выводит на экран найденый квадрат */
+/**
+ * Выводит на экран найденый квадрат
+ * @param {ParkerSquare} ps
+ * @returns {Promise {ParkerSquare}}
+ */
 function processSquare (ps) {
 
 	return new Promise(resolve => setTimeout(() => {

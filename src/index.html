@@ -21,8 +21,16 @@
 
 		<p>
 			<label>Method:</label>
-			<input type="radio" value="0" onChange="onChange('method', this)" checked> Sum
-			<input type="radio" value="1" onChange="onChange('method', this)"> Multiply
+			<input type="radio" name="Method" value="0" onChange="onChange('method', this)" checked> Sum
+			<input type="radio" name="Method" value="1" onChange="onChange('method', this)"> Multiply
+		</p>
+
+		<p>
+			<label>Stufe:</label>
+			<input type="radio" name="Stufe" value="1" onChange="onChange('stufe', this)"> 1
+			<input type="radio" name="Stufe" value="2" onChange="onChange('stufe', this)" checked> 2
+			<input type="radio" name="Stufe" value="3" onChange="onChange('stufe', this)"> 3
+			<input type="radio" name="Stufe" value="4" onChange="onChange('stufe', this)"> 4
 		</p>
 
 		<p>
