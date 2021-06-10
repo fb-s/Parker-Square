@@ -1,7 +1,7 @@
 const params = {
 		psSize: 3, // Parker-Square size
 		method: 0, // 0 = +, 1 - *
-		stufe: 1, // errichten in stufe
+		stufe: 2, // errichten in stufe
 		maxNum: 2, // Maximum number in a cell
 	};
 const process = {
